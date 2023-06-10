@@ -1,3 +1,4 @@
+from typing import Dict, List
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -7,7 +8,7 @@ import sqlite3 as sql
 class Cab(BaseModel):
     regNo: str
     model: str
-    color: str
+    colour: str
 
 
 app = FastAPI(
@@ -23,34 +24,33 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 @app.get("/cabs/")
-def get_all_cabs():
+def get_all_cabs() -> List[Dict[str, str]]:
     conn = sql.connect("./cabs.db")
     cur = conn.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS cabs (regNo TEXT, model TEXT, color TEXT)")
+    cur.execute("CREATE TABLE IF NOT EXISTS cabs (regNo TEXT, model TEXT, colour TEXT)")
     cur.execute("SELECT * FROM cabs")
     rows = cur.fetchall()
     conn.close()
-    return rows
+    return [{"regNo": row[0], "model": row[1], "colour": row[2]} for row in rows]
 
 
 @app.post("/cabs/")
-async def add_cab(cab: Cab):
+async def add_cab(cab: Cab) -> Dict[str, str]:
     conn = sql.connect("./cabs.db")
     cur = conn.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS cabs (regNo TEXT, model TEXT, color TEXT)")
-    cur.execute("INSERT INTO cabs VALUES (?, ?, ?)", (cab.regNo, cab.model, cab.color))
+    cur.execute("CREATE TABLE IF NOT EXISTS cabs (regNo TEXT, model TEXT, colour TEXT)")
+    cur.execute("INSERT INTO cabs VALUES (?, ?, ?)", (cab.regNo, cab.model, cab.colour))
     conn.commit()
     conn.close()
     return {"message": "Cab details added successfully"}
 
 
 @app.delete("/cabs/{regNo}")
-def delete_cab(regNo: str):
+def delete_cab(regNo: str) -> Dict[str, str]:
     conn = sql.connect("./cabs.db")
     cur = conn.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS cabs (regNo TEXT, model TEXT, color TEXT)")
+    cur.execute("CREATE TABLE IF NOT EXISTS cabs (regNo TEXT, model TEXT, colour TEXT)")
     cur.execute("DELETE FROM cabs WHERE regNo=?", (regNo,))
     conn.commit()
     conn.close()
@@ -58,13 +58,13 @@ def delete_cab(regNo: str):
 
 
 @app.put("/cabs/")
-def update_cab(cab: Cab):
+def update_cab(cab: Cab) -> Dict[str, str]:
     conn = sql.connect("./cabs.db")
     cur = conn.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS cabs (regNo TEXT, model TEXT, color TEXT)")
+    cur.execute("CREATE TABLE IF NOT EXISTS cabs (regNo TEXT, model TEXT, colour TEXT)")
     cur.execute(
-        "UPDATE cabs SET model=?, color=? WHERE regNo=?",
-        (cab.model, cab.color, cab.regNo),
+        "UPDATE cabs SET model=?, colour=? WHERE regNo=?",
+        (cab.model, cab.colour, cab.regNo),
     )
     conn.commit()
     conn.close()
