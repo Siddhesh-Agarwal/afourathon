@@ -26,8 +26,7 @@ ____
 ### Frontend
 
 - [TypeScript](https://www.typescriptlang.org/)
-- [React.js](https://reactjs.org/)
-- [Vite.js](https://vitejs.dev/)
+- [next.js](https://nextjs.org/)
 - [ShadCN UI](https://ui.shadcn.com/)
 
 ____

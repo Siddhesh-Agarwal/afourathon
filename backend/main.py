@@ -10,7 +10,11 @@ class Cab(BaseModel):
     color: str
 
 
-app = FastAPI()
+app = FastAPI(
+    title="Cab Management System",
+    description="A simple Cab Management System using FastAPI",
+    version="1.0.0",
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -20,7 +24,7 @@ app.add_middleware(
 )
 
 
-@app.get("/")
+@app.get("/cabs/")
 def get_all_cabs():
     conn = sql.connect("./cabs.db")
     cur = conn.cursor()
@@ -31,7 +35,7 @@ def get_all_cabs():
     return rows
 
 
-@app.post("/")
+@app.post("/cabs/")
 async def add_cab(cab: Cab):
     conn = sql.connect("./cabs.db")
     cur = conn.cursor()
@@ -42,7 +46,7 @@ async def add_cab(cab: Cab):
     return {"message": "Cab details added successfully"}
 
 
-@app.delete("/")
+@app.delete("/cabs/{regNo}")
 def delete_cab(regNo: str):
     conn = sql.connect("./cabs.db")
     cur = conn.cursor()
@@ -53,7 +57,7 @@ def delete_cab(regNo: str):
     return {"message": "Cab details deleted successfully"}
 
 
-@app.put("/")
+@app.put("/cabs/")
 def update_cab(cab: Cab):
     conn = sql.connect("./cabs.db")
     cur = conn.cursor()
