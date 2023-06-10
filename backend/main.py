@@ -24,18 +24,30 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/cabs/")
-def get_all_cabs() -> List[Dict[str, str]]:
+
+@app.get("/cabs")
+def get_all_cabs() -> List[Cab]:
     conn = sql.connect("./cabs.db")
     cur = conn.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS cabs (regNo TEXT, model TEXT, colour TEXT)")
     cur.execute("SELECT * FROM cabs")
     rows = cur.fetchall()
     conn.close()
-    return [{"regNo": row[0], "model": row[1], "colour": row[2]} for row in rows]
+    return [Cab(regNo=row[0], model=row[1], colour=row[2]) for row in rows]
 
 
-@app.post("/cabs/")
+@app.get("/cabs/{regNo}")
+def get_cab(regNo: str) -> Cab:
+    conn = sql.connect("./cabs.db")
+    cur = conn.cursor()
+    cur.execute("CREATE TABLE IF NOT EXISTS cabs (regNo TEXT, model TEXT, colour TEXT)")
+    cur.execute("SELECT * FROM cabs WHERE regNo=?", (regNo,))
+    row = cur.fetchone()
+    conn.close()
+    return Cab(regNo=row[0], model=row[1], colour=row[2])
+
+
+@app.post("/cabs")
 async def add_cab(cab: Cab) -> Dict[str, str]:
     conn = sql.connect("./cabs.db")
     cur = conn.cursor()
@@ -57,7 +69,7 @@ def delete_cab(regNo: str) -> Dict[str, str]:
     return {"message": "Cab details deleted successfully"}
 
 
-@app.put("/cabs/")
+@app.put("/cabs")
 def update_cab(cab: Cab) -> Dict[str, str]:
     conn = sql.connect("./cabs.db")
     cur = conn.cursor()
@@ -69,3 +81,9 @@ def update_cab(cab: Cab) -> Dict[str, str]:
     conn.commit()
     conn.close()
     return {"message": "Cab details updated successfully"}
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app)
