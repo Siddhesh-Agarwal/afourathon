@@ -72,7 +72,11 @@ ____
 
 ## Screenshots
 
-![API](https://github.com/Siddhesh-Agarwal/afourathon/assets/68057995/7a8c3af4-4ccf-4dfc-9cba-46ca7ec8f50a)
+### Backend
+
+![image](https://github.com/Siddhesh-Agarwal/afourathon/assets/68057995/a73c2b8c-83b0-4908-b9e3-e40e7770ca95)
+
+### Frontend
 
 ____
 
