@@ -70,6 +70,12 @@ npm run dev
 
 ____
 
+## Screenshots
+
+![API](https://github.com/Siddhesh-Agarwal/afourathon/assets/68057995/7a8c3af4-4ccf-4dfc-9cba-46ca7ec8f50a)
+
+____
+
 ## Team
 
 <div style="align:inline">
