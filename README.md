@@ -69,6 +69,16 @@ npm run dev
 
 ____
 
+## Screenshots
+
+### Backend
+
+![image](https://github.com/Siddhesh-Agarwal/afourathon/assets/68057995/a73c2b8c-83b0-4908-b9e3-e40e7770ca95)
+
+### Frontend
+
+____
+
 ## Team
 
 <div style="align:inline">
